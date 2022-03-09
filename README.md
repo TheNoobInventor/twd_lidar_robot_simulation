@@ -1,7 +1,7 @@
 # Two Wheeled Lidar Robot Sim
 
 <p align='center'>
-    <img src='sim.gif'>
+    <img src='move.gif'>
 </p>
 
 ---
