@@ -1,6 +1,321 @@
 <?xml version='1.0'?>
 <sdf version='1.5'>
   <model name='twd_lidar_robot'>
+    <static>false</static>
     
+    <link name='base_footprint'/>
+    <pose>0 0 0 0 0 0</pose>
+
+    <link name='base_link'>
+      <pose>0 0 0.045 0 0 0</pose>
+      <collision name='base_link_collision'>
+        <geometry>
+          <box>
+            <size>.21 .11 .05</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='base_link_visual'>
+      <pose>0 0 -0.045 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://lidar_robot_description/meshes/robot_base_link.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name='caster_mount_collision'>
+        <geometry>
+          <cylinder>
+            <radius>0.017</radius>
+            <length>0.0125</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name='caster_mount_visual'>
+        <pose>0.086 0 -0.08 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://lidar_robot_description/meshes/caster_mount.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <!-- Raspberry Pi 4 -->
+      <collision name='rpi_4_collision'>
+        <geometry>
+          <box>
+            <size>0.085 0.056 0.018</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='rpi_4_visual'>
+        <pose>-0.05 0 -0.028 0 0 1.5707</pose>
+        <geometry>
+          <mesh>
+            <uri>model://lidar_robot_description/meshes/rpi_4.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <collision name='rplidar_base_collision'>
+        <geometry>
+          <box>
+            <size>0.0968 0.07 0.035</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='rplidar_base_visual'>
+      <pose>0.068 -0.001 -0.0325 0 0 3.142</pose>
+        <geometry>
+          <mesh>
+            <uri>model://lidar_robot_description/meshes/rplidar_base.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+
+    <!-- Left wheel link  -->
+    <link name='left_wheel'>
+      <pose>-0.0288 0.055 0 0 1.5707 1.5707</pose>
+      <collision name='left_wheel_collision'>
+        <geometry>
+          <cylinder>
+            <radius>0.0325</radius>
+            <length>0.025</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name='left_wheel_visual'>
+        <geometry>
+          <mesh>
+            <uri>model://lidar_robot_description/meshes/left_wheel.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+
+    <!-- Right robot wheel  -->
+    <link name='right_wheel'>
+      <pose>-0.0288 -0.064 0 0 1.5707 1.5707</pose>
+      <collision name='right_wheel_collision'>
+        <geometry>
+          <cylinder>
+            <radius>0.0325</radius>
+            <length>0.025</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name='right_wheel_visual'>
+        <geometry>
+          <mesh>
+            <uri>model://lidar_robot_description/meshes/right_wheel.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+
+    <!-- Caster wheel -->
+    <link name='caster_wheel'>
+      <pose>0.085 0 -0.0175 0 0 1.5707</pose>
+      <!-- <pose>0.085 0 -0.0175 0 0 1.5707</pose> -->
+      <collision name='caster_wheel_collision'>
+        <geometry>
+          <sphere>
+            <radius>0.015</radius>
+            <!-- <radius>0.0175</radius> -->
+          </sphere>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>0</mu>
+              <mu2>0</mu2>
+              <slip1>1.0</slip1>
+              <slip2>1.0</slip2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='caster_wheel_visual'>
+        <pose>0 -0.007 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://lidar_robot_description/meshes/caster_wheel.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+
+    <!-- Rplidar top link -->
+    <link name='rplidar_top'>
+      <pose>0.068 0.0027 0.045 0 0 1.0707</pose>
+      <collision name='rplidar_top_collision'>
+        <geometry>
+          <cylinder>
+            <radius>0.035</radius>
+            <length>0.021</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name='rplidar_top_visual'>
+        <geometry>
+          <mesh>
+            <uri>model://lidar_robot_description/meshes/rplidar_top.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <sensor type='ray' name='rplidar'>
+        <pose>0 0 0.01 0 0 -0.7854</pose>
+        <always_on>false</always_on>
+        <visualize>false</visualize>
+        <update_rate>5.5</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>360</samples>
+              <resolution>1</resolution>
+              <min_angle>0</min_angle>
+              <max_angle>6.28</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.15</min>
+            <max>12</max>
+            <resolution>0.2</resolution>
+          </range>
+           <noise>
+             <type>gaussian</type>
+             <mean>0.0</mean>
+             <stddev>0.02</stddev>
+           </noise>
+        </ray>
+        <plugin name="scan" filename="libgazebo_ros_ray_sensor.so">
+          <ros>
+            <remapping>~/out:=scan</remapping>
+          </ros>
+          <output_type>sensor_msgs/LaserScan</output_type>
+          <frame_name>rplidar_top</frame_name>
+        </plugin>
+      </sensor>
+    </link>
+
+    <!-- Joints  -->
+    <joint name="base_joint" type="fixed">
+      <pose>0 0 0 0 0 0</pose>
+      <parent>base_footprint</parent>
+      <child>base_link</child>
+    </joint>
+
+    <joint  name='left_wheel_hinge' type='revolute'>
+      <pose>0 0 0 0 0 0</pose>
+      <parent>base_link</parent>
+      <child>left_wheel</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+14</lower>
+          <upper>1e+14</upper>
+        </limit>
+      </axis>
+    </joint>
+
+    <joint name='right_wheel_hinge' type='revolute'>
+      <pose>0 0 0 0 0 0</pose>
+      <parent>base_link</parent>
+      <child>right_wheel</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+14</lower>
+          <upper>1e+14</upper>
+        </limit>
+      </axis>
+    </joint>
+
+    <joint name='caster_joint' type='revolute'>
+      <pose>0 0 0 0 0 0</pose>
+      <parent>base_link</parent>
+      <child>caster_wheel</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+14</lower>
+          <upper>1e+14</upper>
+        </limit>
+      </axis>
+    </joint>
+
+    <joint name='rplidar_joint' type='revolute'>
+      <pose>0 0 0 0 0 0</pose>
+      <parent>base_link</parent>
+      <child>rplidar_top</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e+14</lower>
+          <upper>1e+14</upper>
+        </limit>
+      </axis>
+    </joint>
+
+    <!-- ***************************************** WHEEL ODOMETRY **************************************** -->
+    <plugin name='twd_lidar_robot_diff_drive' filename='libgazebo_ros_diff_drive.so'>
+      <!-- Maybe adjust later -->
+      <!-- Update rate in Hz -->
+      <!-- <update_rate>50</update_rate> -->
+      <update_rate>30</update_rate>
+      <!-- wheels -->
+      <left_joint>left_wheel_hinge</left_joint>
+      <right_joint>right_wheel_hinge</right_joint>
+
+      <!-- kinematics -->
+      <!-- The distance from the center of one wheel to the other -->
+      <wheel_separation>0.138</wheel_separation>
+      <wheel_diameter>0.065</wheel_diameter>
+      <!-- limits -->
+      <!-- Nm -->
+      <!-- <max_wheel_torque>30</max_wheel_torque> -->
+      <max_wheel_torque>0.60</max_wheel_torque>
+      <!-- Use parameters from diffbot for now -->
+      <max_wheel_acceleration>1.8</max_wheel_acceleration>
+      <command_topic>cmd_vel</command_topic>
+      <!-- Output. When false, publish no wheel odometry data to a ROS topic -->
+      <publish_odom>true</publish_odom>
+      <!-- When true, publish coordinate transform from odom to base_footprint -->
+      <!-- Addison usually uses the robot_localization package to publish this transform -->   
+      <publish_odom_tf>false</publish_odom_tf>     
+      <!-- When true, publish coordinate transform from base_link to the wheels -->
+      <!-- The robot_state_publisher package is often used to publish this transform -->   
+      <publish_wheel_tf>false</publish_wheel_tf>
+      <!-- Topic to publish nav_msgs/Odometry messages, defaults to `odom` -->
+      <odometry_topic>odom</odometry_topic>
+      <!-- Odometry frame, defaults to `odom` -->
+      <odometry_frame>odom</odometry_frame>
+      <!-- Robot frame to calculate odometry from, defaults to `base_footprint` -->
+      <robot_base_frame>base_footprint</robot_base_frame>
+      <!-- Odometry source, 0 for ENCODER, 1 for WORLD, defaults to WORLD -->
+      <odometry_source>1</odometry_source>
+      <!-- Change the ROS topic we will publish the odometry data to -->
+      <ros>
+        <remapping>odom:=wheel/odometry</remapping>
+      </ros>
+    </plugin>
+
+    <!-- **************************************** JOINT STATE PUBLISHER ********************************** -->
+    <plugin name="twd_lidar_robot_joint_state" filename="libgazebo_ros_joint_state_publisher.so">
+      <ros>
+        <remapping>~/out:=joint_states</remapping>
+      </ros>
+      <!-- <update_rate>50</update_rate> -->
+      <update_rate>30</update_rate>
+      <joint_name>left_wheel_hinge</joint_name>
+      <joint_name>right_wheel_hinge</joint_name>
+    </plugin>
   </model>
 </sdf>
+
+<!-- TO-DO: -->
+
+<!-- Later later add material to color things up -->
