@@ -15,9 +15,9 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: 3.x
-      - run: pip install git+https://${TEST}@github.com/squidfunk/mkdocs-material.git
-      # - run: pip install git+https://${PERSONAL_TOKEN}@github.com/squidfunk/mkdocs-material.git
+      # - run: pip install git+https://${TEST}@github.com/squidfunk/mkdocs-material.git
+      - run: pip install git+https://${PERSONAL_TOKEN}@github.com/squidfunk/mkdocs-material.git
       - run: mkdocs gh-deploy --force
 env:
-  GH_TOKEN: ${{ secrets.TEST}}
-  # GH_TOKEN: ${{ secrets.PERSONAL_TOKEN}}
+  # GH_TOKEN: ${{ secrets.TEST}}
+  GH_TOKEN: ${{ secrets.PERSONAL_TOKEN}}
