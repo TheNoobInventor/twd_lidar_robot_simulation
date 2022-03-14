@@ -1,14 +1,9 @@
-# Two Wheeled Lidar Robot Sim
+![Mkdocs workflow](https://github.com/TheNoobInventor/twd_lidar_robot_simulation/actions/workflows/.github/workflows/main.yml/badge.svg)
+# Two Wheeled Lidar Robot Simulation
 
 <p align='center'>
-    <img src='sim.gif'>
+    <img src='./docs/sim.gif'>
 </p>
 
----
-
-Simulation of a 2 Wheeled Drive Lidar robot in Gazebo, visualized using Rviz2 and running ROS2 Foxy. 
-
-To-do:
- - [ ] Joystick control
- - [ ] SLAM implementation
+The documentation for this project can be found [here](https://TheNoobInventor.github.io/ twd_lidar_robot_simulation/).
 
