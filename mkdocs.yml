@@ -1,5 +1,5 @@
-site_name: Twd Lidar Sim
-site_url: ''
+site_name: Two Wheeled Lidar Robot Simulation
+site_url: 'https://TheNoobInventor.github.io/twd_lidar_robot_simulation/'
 use_directory_urls: False
 edit_uri: ""
 
@@ -16,8 +16,8 @@ theme:
       toggle:
         icon: material/toggle-switch
         name: Switch to light mode
-repo_url: https://github.com/example/example-repo
-repo_name: example/example-repo
+repo_url: https://github.com/TheNoobInventor/twd_lidar_robot_simulation/
+repo_name: TheNoobInventor/twd_lidar_robot_simulation
 plugins:
   - search:
       lang: en

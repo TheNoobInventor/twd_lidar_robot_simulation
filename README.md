@@ -5,5 +5,5 @@
     <img src='./docs/sim.gif'>
 </p>
 
-The documentation for this project can be found [here](https://TheNoobInventor.github.io/ twd_lidar_robot_simulation/).
+The documentation for this project can be found [here](https://TheNoobInventor.github.io/twd_lidar_robot_simulation/).
 
