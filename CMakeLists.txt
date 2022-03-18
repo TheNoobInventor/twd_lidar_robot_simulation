@@ -35,11 +35,10 @@ include_directories(include)
 ament_python_install_package(${PROJECT_NAME})
 
 # Install Python executables
-# Uncomment and edit script line to our needs
-# install(PROGAMS
-# scripts/sample_script.py
-# DESTINATION lib/${PROJECT_NAME}
-# )
+install(PROGRAMS
+  scripts/teleop_key.py
+  DESTINATION lib/${PROJECT_NAME}
+)
 
 install(
   DIRECTORY config launch maps meshes models params rviz src worlds

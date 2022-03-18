@@ -34,3 +34,16 @@ how to download and run the code
 
 ## References
 
+- https://roboticsbackend.com/ros2-package-for-both-python-and-cpp-nodes/
+
+- https://automaticaddison.com/how-to-create-a-simulated-mobile-robot-in-ros-2-using-urdf/
+
+- https://urdfpy.readthedocs.io/en/latest/generated/urdfpy.JointLimit.html#urdfpy.JointLimit
+
+- https://automaticaddison.com/set-up-the-odometry-for-a-simulated-mobile-robot-in-ros-2/
+
+- https://gazebosim.org/tutorials?tut=ros_gzplugins
+
+- https://medium.com/creating-a-gazebo-simulation-with-ros2-for-your/introduction-8daf6efa12f4
+
+- https://gazebosim.org/tutorials?tut=physics_params&cat=physics

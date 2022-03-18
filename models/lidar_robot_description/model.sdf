@@ -94,9 +94,12 @@
       <inertial>
         <mass>0.03</mass>
         <inertia>
-          <ixx>0.00001584</ixx>
+         <!-- <ixx>0.00001584</ixx>
           <iyy>0.00001584</iyy>
-          <izz>0.000009484</izz>
+          <izz>0.000009484</izz> -->
+          <ixx>0.000009484</ixx>
+          <iyy>0.000009484</iyy>
+          <izz>0.00001584</izz>
           <ixy>0</ixy>
           <ixz>0</ixz>
           <iyz>0</iyz>
@@ -113,10 +116,11 @@
         <surface>
           <friction>
             <ode>
-              <mu>1</mu>
-              <mu2>1</mu2>
+              <mu>1.0</mu>
+              <mu2>1.0</mu2>
               <slip1>1.0</slip1>
               <slip2>1.0</slip2>
+              <fdir1>1 0 0</fdir1>
             </ode>
           </friction>
         </surface>
@@ -136,9 +140,12 @@
       <inertial>
         <mass>0.03</mass>
         <inertia>
-          <ixx>0.00001584</ixx>
+          <!-- <ixx>0.00001584</ixx>
           <iyy>0.00001584</iyy>
-          <izz>0.000009484</izz>
+          <izz>0.000009484</izz> -->
+          <ixx>0.000009484</ixx>
+          <iyy>0.000009484</iyy>
+          <izz>0.00001584</izz>
           <ixy>0</ixy>
           <ixz>0</ixz>
           <iyz>0</iyz>
@@ -155,10 +162,11 @@
         <surface>
           <friction>
             <ode>
-              <mu>1</mu>
-              <mu2>1</mu2>
+              <mu>1.0</mu>
+              <mu2>1.0</mu2>
               <slip1>1.0</slip1>
               <slip2>1.0</slip2>
+              <fdir1>1 0 0</fdir1>
             </ode>
           </friction>
         </surface>
@@ -195,10 +203,11 @@
         <surface>
           <friction>
             <ode>
-              <mu>1</mu>
-              <mu2>1</mu2>
+              <mu>1.0</mu>
+              <mu2>1.0</mu2>
               <slip1>1.0</slip1>
               <slip2>1.0</slip2>
+              <fdir1>0 0 1</fdir1>
             </ode>
           </friction>
         </surface>
@@ -267,7 +276,7 @@
            <noise>
              <type>gaussian</type>
              <mean>0.0</mean>
-             <stddev>0.02</stddev>
+             <stddev>0.01</stddev>
            </noise>
         </ray>
         <plugin name="scan" filename="libgazebo_ros_ray_sensor.so">
@@ -293,10 +302,10 @@
       <child>left_wheel</child>
       <axis>
         <xyz>0 0 1</xyz>
-        <limit>
+        <!-- <limit>
           <lower>-1e+14</lower>
           <upper>1e+14</upper>
-        </limit>
+        </limit> -->
       </axis>
     </joint>
 
@@ -306,10 +315,10 @@
       <child>right_wheel</child>
       <axis>
         <xyz>0 0 1</xyz>
-        <limit>
+        <!-- <limit>
           <lower>-1e+14</lower>
           <upper>1e+14</upper>
-        </limit>
+        </limit> -->
       </axis>
     </joint>
 
@@ -319,12 +328,10 @@
       <child>caster_wheel</child>
       <axis>
         <xyz>0 0 1</xyz>
-        <limit>
+        <!-- <limit>
           <lower>-3.142</lower>
           <upper>3.142</upper>
-          <!-- <lower>-1e+14</lower>
-          <upper>1e+14</upper> -->
-        </limit>
+        </limit> -->
       </axis>
     </joint>
     
