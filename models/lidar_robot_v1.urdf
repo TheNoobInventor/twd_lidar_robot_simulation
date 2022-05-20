@@ -8,7 +8,8 @@
   <xacro:property name="base_height" value="0.035"/>
 
   <!-- Define the shape of the robot's two back wheels in metres-->
-  <xacro:property name="wheel_radius" value="0.0325"/>
+  <xacro:property name="wheel_outer_radius" value="0.0325"/>
+  <xacro:property name="wheel_inner_radius" value="0.0225"/>
   <xacro:property name="wheel_width" value="0.025"/>
 
   <!-- x-axis points forward, y-axis points to left, z-axis points upwards -->
@@ -27,11 +28,13 @@
     </inertial>
   </xacro:macro>
 
-  <xacro:macro name="cylinder_inertia" params="m r h">
+  <!-- <xacro:macro name="cylinder_inertia" params="m r h"> -->
+  <xacro:macro name="thick_walled_cylinder_inertia" params="m r2 r1 h">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <mass value="${m}"/>
-      <inertia ixx="${(m/12) * (3*r*r + h*h)}" ixy = "0" ixz = "0" iyy="${(m/12) * (3*r*r + h*h)}" iyz = "0" izz="${(m/2) * (r*r)}"/>
+      <!-- <inertia ixx="${(m/12) * (3*r*r + h*h)}" ixy = "0" ixz = "0" iyy="${(m/12) * (3*r*r + h*h)}" iyz = "0" izz="${(m/2) * (r*r)}"/> -->
+      <inertia ixx="${(m/12) * (3*(r2*r2 + r1*r1) + h*h)}" ixy = "0" ixz = "0" iyy="${(m/12) * (3*(r2*r2 + r1*r1) + h*h)}" iyz = "0" izz="${(m/2) * (r2*r2 + r1*r1)}"/>
     </inertial>
   </xacro:macro>
 
@@ -50,7 +53,7 @@
   <joint name="base_joint" type="fixed">
     <parent link="base_footprint"/>
     <child link="base_link"/>
-    <origin xyz="0 0 ${(wheel_radius+wheel_zoff)}" rpy="0 0 0"/>
+    <origin xyz="0 0 ${(wheel_outer_radius+wheel_zoff)}" rpy="0 0 0"/>
   </joint>
   
   <!-- ******************************* ROBOT BASE ************************************** -->
@@ -83,11 +86,12 @@
     <collision>
       <origin xyz="0 0.004 0" rpy="0 1.5707 1.5707"/>
       <geometry>
-        <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+        <cylinder radius="${wheel_outer_radius}" length="${wheel_width}"/>
       </geometry>
     </collision>
 
-    <xacro:cylinder_inertia m="0.03" r="${wheel_radius}" h="${wheel_width}"/>
+    <!-- <xacro:cylinder_inertia m="0.031" r="${wheel_outer_radius}" h="${wheel_width}"/> -->
+    <xacro:thick_walled_cylinder_inertia m="0.031" r2="${wheel_outer_radius}" r1="${wheel_inner_radius}" h="${wheel_width}"/>
   </link>
 
   <joint name="left_wheel_hinge" type="revolute">
@@ -108,11 +112,12 @@
     <collision>
       <origin xyz="0 0.006 0" rpy="0 1.5707 1.5707"/>
       <geometry>
-        <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+        <cylinder radius="${wheel_outer_radius}" length="${wheel_width}"/>
       </geometry>
     </collision>
 
-    <xacro:cylinder_inertia m="0.03" r="${wheel_radius}" h="${wheel_width}"/>
+    <!-- <xacro:cylinder_inertia m="0.031" r="${wheel_outer_radius}" h="${wheel_width}"/> -->
+    <xacro:thick_walled_cylinder_inertia m="0.031" r2="${wheel_outer_radius}" r1="${wheel_inner_radius}" h="${wheel_width}"/>
   </link>
 
   <joint name="right_wheel_hinge" type="revolute">
@@ -158,19 +163,16 @@
         <sphere radius="0.025"/>
       </geometry>
     </collision>
+
+    <xacro:sphere_inertia m="0.033" r="0.025"/>
   </link>
 
-  <gazebo reference="caster_wheel">
-    <mu1>0.01</mu1>
-    <mu2>0.01</mu2>
-  </gazebo>
-  
   <joint name="caster_wheel_to_mount" type="fixed">
     <parent link="caster_mount"/>
     <child link="caster_wheel"/>
     <!-- z is half the height of the caster mount and half the radius of the "sphere" of the caster wheel-->
     <origin xyz="0 0 -0.01875" rpy="0 0 0"/>
-    <limit upper="3.1415" lower="-3.1415" effort="30" velocity="5.0"/>
+    <!-- <limit upper="3.1415" lower="-3.1415" effort="30" velocity="5.0"/> -->
     <axis xyz="0 0 1"/>
   </joint>
 
@@ -189,6 +191,7 @@
       </geometry>
     </collision>
   </link>
+
   <joint name="rpi_4_to_base" type="fixed">
     <parent link="base_link"/>
     <child link="rpi_4"/>
@@ -234,7 +237,7 @@
       </geometry>
     </collision>
 
-    <xacro:cylinder_inertia m="0.037" r="0.035" h="0.021"/>
+    <!-- <xacro:cylinder_inertia m="0.037" r="0.035" h="0.021"/> -->
   </link>
 
   <joint name="rplidar_joint" type="fixed">
@@ -243,5 +246,15 @@
     <!-- half height of rplidar base + half height of rplidar top -->
     <origin xyz="0 0.0027 0.028" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
+  </joint>
+
+  <!-- IMU  -->
+  <link name="imu_link"/>
+
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+    <!-- <origin xyz="0 0 0" rpy="0 0 0"/>  -->
+    <origin xyz="-0.10 0 0.05" rpy="0 0 0"/> 
   </joint>
 </robot>

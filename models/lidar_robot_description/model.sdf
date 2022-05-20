@@ -7,17 +7,6 @@
     <pose>0 0 0 0 0 0</pose>
 
     <link name='base_link'>
-      <inertial>
-        <mass>0.863</mass>
-        <inertia>
-          <ixx>0.00326</ixx>
-          <iyy>0.0009582</iyy>
-          <izz>0.004042</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
-        </inertia>
-      </inertial>
       <collision name='base_link_collision'>
         <pose>0 0 0.002 0 0 0</pose>
         <geometry>
@@ -88,18 +77,95 @@
       </visual>
     </link>
 
+    <!-- Imu Sensor -->
+    <link name='imu_link'>
+      <gravity>true</gravity>
+      <sensor name='twd_robot_imu' type='imu'>
+        <plugin name='twd_lidar_robot_imu' filename='libgazebo_ros_imu_sensor.so'>
+          <initial_orientation_as_reference>false</initial_orientation_as_reference>
+          <frame_name>imu_link</frame_name>
+          <ros>
+            <namespace>/imu</namespace>
+            <remapping>~/out:=data</remapping>
+          </ros>
+        </plugin>
+        <always_on>true</always_on>
+        <update_rate>100</update_rate>
+        <visualize>true</visualize>
+        <imu>
+          <orientation>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-3</stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-3</stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-3</stddev>
+              </noise>
+            </z>
+          </orientation>
+          <angular_velocity>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+              </noise>
+            </z>
+          </angular_velocity>
+          <linear_acceleration>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+              </noise>
+            </z>
+          </linear_acceleration>
+        </imu>
+      </sensor>
+    </link>
+
     <!-- Left wheel link  -->
     <link name='left_wheel'>
       <pose>-0.0288 0.055 0 0 1.5707 1.5707</pose>
       <inertial>
-        <mass>0.03</mass>
+        <mass>0.031</mass>
         <inertia>
-         <!-- <ixx>0.00001584</ixx>
-          <iyy>0.00001584</iyy>
-          <izz>0.000009484</izz> -->
-          <ixx>0.000009484</ixx>
-          <iyy>0.000009484</iyy>
-          <izz>0.00001584</izz>
+          <ixx>0.000013724</ixx>
+          <iyy>0.000013724</iyy>
+          <izz>0.000024219</izz>
           <ixy>0</ixy>
           <ixz>0</ixz>
           <iyz>0</iyz>
@@ -113,17 +179,6 @@
             <length>0.025</length>
           </cylinder>
         </geometry>
-        <surface>
-          <friction>
-            <ode>
-              <mu>1.0</mu>
-              <mu2>1.0</mu2>
-              <slip1>1.0</slip1>
-              <slip2>1.0</slip2>
-              <fdir1>1 0 0</fdir1>
-            </ode>
-          </friction>
-        </surface>
       </collision>
       <visual name='left_wheel_visual'>
         <geometry>
@@ -138,14 +193,11 @@
     <link name='right_wheel'>
       <pose>-0.0288 -0.064 0 0 1.5707 1.5707</pose>
       <inertial>
-        <mass>0.03</mass>
+        <mass>0.031</mass>
         <inertia>
-          <!-- <ixx>0.00001584</ixx>
-          <iyy>0.00001584</iyy>
-          <izz>0.000009484</izz> -->
-          <ixx>0.000009484</ixx>
-          <iyy>0.000009484</iyy>
-          <izz>0.00001584</izz>
+          <ixx>0.000013724</ixx>
+          <iyy>0.000013724</iyy>
+          <izz>0.000024219</izz>
           <ixy>0</ixy>
           <ixz>0</ixz>
           <iyz>0</iyz>
@@ -159,17 +211,6 @@
             <length>0.025</length>
           </cylinder>
         </geometry>
-        <surface>
-          <friction>
-            <ode>
-              <mu>1.0</mu>
-              <mu2>1.0</mu2>
-              <slip1>1.0</slip1>
-              <slip2>1.0</slip2>
-              <fdir1>1 0 0</fdir1>
-            </ode>
-          </friction>
-        </surface>
       </collision>
       <visual name='right_wheel_visual'>
         <geometry>
@@ -183,17 +224,6 @@
     <!-- Caster wheel -->
     <link name='caster_wheel'>
       <pose>0.085 0 -0.0175 0 0 1.5707</pose>
-      <inertial>
-        <mass>0.033</mass>
-        <inertia>
-          <ixx>0.00000404256</ixx>
-          <iyy>0.00000404256</iyy>
-          <izz>0.00000404256</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
-        </inertia>
-      </inertial>
       <collision name='caster_wheel_collision'>
         <geometry>
           <sphere>
@@ -203,10 +233,10 @@
         <surface>
           <friction>
             <ode>
-              <mu>1.0</mu>
-              <mu2>1.0</mu2>
-              <slip1>1.0</slip1>
-              <slip2>1.0</slip2>
+              <mu>0.5</mu>
+              <mu2>0.5</mu2>
+              <slip1>0.01</slip1>
+              <slip2>0.01</slip2>
               <fdir1>0 0 1</fdir1>
             </ode>
           </friction>
@@ -225,9 +255,9 @@
     <!-- Rplidar top link -->
     <link name='rplidar_top'>
       <pose>0.068 0.0027 0.045 0 0 1.0707</pose>
-      <!-- <inertial> -->
+        <inertial>
         <!-- mass of 70 grams is an approximation -->
-        <!-- <mass>0.070</mass>
+        <mass>0.070</mass>
         <inertia>
           <ixx>0.00002298</ixx>
           <iyy>0.00002298</iyy>
@@ -236,7 +266,7 @@
           <ixz>0</ixz>
           <iyz>0</iyz>
         </inertia>
-      </inertial> -->
+      </inertial>
       <collision name='rplidar_top_collision'>
         <pose>0 -0.001 0.01 0 0 0</pose>
         <geometry>
@@ -290,22 +320,24 @@
     </link>
 
     <!-- Joints  -->
-    <joint name="base_joint" type="fixed">
+    <joint name='base_joint' type='fixed'>
       <pose>0 0 0 0 0 0</pose>
       <parent>base_footprint</parent>
       <child>base_link</child>
     </joint>
 
-    <joint  name='left_wheel_hinge' type='revolute'>
+    <joint name='imu_joint' type='fixed'>
+      <pose>0 0 0 0 0 0</pose>
+      <parent>base_link</parent>
+      <child>imu_link</child>
+    </joint>
+
+    <joint name='left_wheel_hinge' type='revolute'>
       <pose>0 0 0 0 0 0</pose>
       <parent>base_link</parent>
       <child>left_wheel</child>
       <axis>
         <xyz>0 0 1</xyz>
-        <!-- <limit>
-          <lower>-1e+14</lower>
-          <upper>1e+14</upper>
-        </limit> -->
       </axis>
     </joint>
 
@@ -315,10 +347,6 @@
       <child>right_wheel</child>
       <axis>
         <xyz>0 0 1</xyz>
-        <!-- <limit>
-          <lower>-1e+14</lower>
-          <upper>1e+14</upper>
-        </limit> -->
       </axis>
     </joint>
 
@@ -328,10 +356,6 @@
       <child>caster_wheel</child>
       <axis>
         <xyz>0 0 1</xyz>
-        <!-- <limit>
-          <lower>-3.142</lower>
-          <upper>3.142</upper>
-        </limit> -->
       </axis>
     </joint>
     
@@ -341,31 +365,17 @@
       <child>rplidar_top</child>
     </joint>
 
-    <!-- <joint name='rplidar_joint' type='revolute'>
-      <pose>0 0 0 0 0 0</pose>
-      <parent>base_link</parent>
-      <child>rplidar_top</child>
-      <axis>
-        <xyz>0 0 1</xyz>
-        <limit>
-          <lower>-1e+14</lower>
-          <upper>1e+14</upper>
-        </limit>
-      </axis>
-    </joint> -->
-
     <!-- ***************************************** WHEEL ODOMETRY **************************************** -->
     <plugin name='twd_lidar_robot_diff_drive' filename='libgazebo_ros_diff_drive.so'>
-      <!-- <update_rate>50</update_rate> -->
-      <update_rate>30</update_rate>
+      <update_rate>25</update_rate>
       <!-- wheels -->
       <left_joint>left_wheel_hinge</left_joint>
       <right_joint>right_wheel_hinge</right_joint>
       <wheel_separation>0.138</wheel_separation>
       <wheel_diameter>0.065</wheel_diameter>
       <!-- Nm -->
-      <max_wheel_torque>20</max_wheel_torque>
-      <max_wheel_acceleration>1.8</max_wheel_acceleration>
+      <max_wheel_torque>15</max_wheel_torque>
+      <max_wheel_acceleration>1.0</max_wheel_acceleration>
       <command_topic>cmd_vel</command_topic>
       <!-- Output. When false, publish no wheel odometry data to a ROS topic -->
       <publish_odom>true</publish_odom>
@@ -394,14 +404,12 @@
       <ros>
         <remapping>~/out:=joint_states</remapping>
       </ros>
-      <!-- <update_rate>50</update_rate> -->
-      <update_rate>30</update_rate>
+      <update_rate>25</update_rate>
       <joint_name>left_wheel_hinge</joint_name>
       <joint_name>right_wheel_hinge</joint_name>
     </plugin>
   </model>
 </sdf>
 
-<!-- TO-DO: -->
-
 <!-- Later later add material to color things up -->
+<!-- Remove rplidar inertial tags? They do not seem to be influential -->

@@ -1,6 +1,6 @@
 
 <?xml version="1.0"?>
-<sdf version='1.6'>
+<sdf version='1.5'>
   <world name='default'>
     <!-- Here is where we place objects inside our world -->
     <model name='ground_plane'>
@@ -50,7 +50,7 @@
         <kinematic>0</kinematic>
       </link>
     </model>
-    <model name='asphalt_plane'>
+   <!-- <model name='asphalt_plane'>
       <static>1</static>
       <link name='link'>
         <collision name='collision'>
@@ -241,7 +241,7 @@
         <kinematic>0</kinematic>
       </link>
       <pose frame=''>8.60996 -7.34898 0 0 -0 0</pose>
-    </model>
+    </model> -->
     <model name='post_office'>
       <static>1</static>
       <link name='link'>
