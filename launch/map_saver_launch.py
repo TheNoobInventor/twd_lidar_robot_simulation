@@ -17,7 +17,7 @@ def generate_launch_description():
     # ...............................................................
 
 
-    pkg_dir = get_package_share_directory('basic_mobile_robot')
+    pkg_dir = get_package_share_directory('twd_lidar_robot')
     map_save_config = os.path.join(pkg_dir, 'params', map_saver_params_file)
 
 

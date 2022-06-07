@@ -84,8 +84,4 @@ if __name__ == '__main__':
 
 # Comment cleanly
 
-# Adding in docs that the axe values of the joysticks vary between -1 and 1
-
-# launch file to add ros2 run joy joy_node to this node? 
-
 # change name of class, node and file to remove confusion
