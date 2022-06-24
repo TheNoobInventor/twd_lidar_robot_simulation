@@ -1,3 +1,6 @@
+# Launch a two wheeled mobile robot in rviz and Gazebo using the ROS2 Navigation Stack
+# File adapted from https://automaticaddison.com
+
 import os
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
@@ -36,6 +39,7 @@ def generate_launch_description():
   params_file = LaunchConfiguration('params_file')
   rviz_config_file = LaunchConfiguration('rviz_config_file')
   slam = LaunchConfiguration('slam')
+  use_joystick = LaunchConfiguration('use_joystick')
   use_namespace = LaunchConfiguration('use_namespace')
   use_robot_state_pub = LaunchConfiguration('use_robot_state_pub')
   use_rviz = LaunchConfiguration('use_rviz')
@@ -102,6 +106,11 @@ def generate_launch_description():
     name='slam',
     default_value='False',
     description='Whether to run SLAM')
+  
+  declare_joystick_cmd = DeclareLaunchArgument(
+    name='use_joystick',
+    default_value='False',
+    description='Whether to run joystick node')
     
   declare_use_robot_state_pub_cmd = DeclareLaunchArgument(
     name='use_robot_state_pub',
@@ -170,6 +179,20 @@ def generate_launch_description():
     output='screen',
     arguments=['-d', rviz_config_file])    
 
+  # Launch the inbuilt ros2 joy node
+  start_joy_node_cmd = Node(
+    condition=IfCondition(use_joystick),
+    package='joy',
+    executable='joy_node',
+    name='joy_node')
+
+  # Launch joystick_pad_node 
+  start_joystick_cmd =  Node(
+      condition=IfCondition(use_joystick),
+      package='twd_lidar_robot',
+      executable='joystick_pad_node.py',
+      name='joystick_pad_node')
+
   # Launch the ROS 2 Navigation Stack
   start_ros2_navigation_cmd = IncludeLaunchDescription(
     PythonLaunchDescriptionSource(os.path.join(nav2_launch_dir, 'bringup_launch.py')),
@@ -196,6 +219,7 @@ def generate_launch_description():
   ld.add_action(declare_rviz_config_file_cmd)
   ld.add_action(declare_simulator_cmd)
   ld.add_action(declare_slam_cmd)
+  ld.add_action(declare_joystick_cmd)
   ld.add_action(declare_use_robot_state_pub_cmd)  
   ld.add_action(declare_use_rviz_cmd) 
   ld.add_action(declare_use_sim_time_cmd)
@@ -207,6 +231,8 @@ def generate_launch_description():
   ld.add_action(start_gazebo_client_cmd)
   ld.add_action(start_robot_localization_cmd)
   ld.add_action(start_robot_state_publisher_cmd)
+  ld.add_action(start_joy_node_cmd)
+  ld.add_action(start_joystick_cmd)
   ld.add_action(start_rviz_cmd)
   ld.add_action(start_ros2_navigation_cmd)
 

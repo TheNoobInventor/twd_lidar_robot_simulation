@@ -23,6 +23,7 @@
         </geometry>
       </visual>
 
+      <!-- Caster mount -->
       <collision name='caster_mount_collision'>
         <pose>0.086 0 0 0 0 0</pose>
         <geometry>
@@ -59,6 +60,7 @@
         </geometry>
       </visual>
 
+      <!-- Rplidar base -->
       <collision name='rplidar_base_collision'>
         <pose>0.05 0 0.03 0 0 0</pose>
         <geometry>
@@ -255,18 +257,6 @@
     <!-- Rplidar top link -->
     <link name='rplidar_top'>
       <pose>0.068 0.0027 0.045 0 0 1.0707</pose>
-        <inertial>
-        <!-- mass of 70 grams is an approximation -->
-        <mass>0.070</mass>
-        <inertia>
-          <ixx>0.00002298</ixx>
-          <iyy>0.00002298</iyy>
-          <izz>0.00004288</izz>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyz>0</iyz>
-        </inertia>
-      </inertial>
       <collision name='rplidar_top_collision'>
         <pose>0 -0.001 0.01 0 0 0</pose>
         <geometry>
@@ -365,15 +355,13 @@
       <child>rplidar_top</child>
     </joint>
 
-    <!-- ***************************************** WHEEL ODOMETRY **************************************** -->
+    <!-- Wheel Odometry -->
     <plugin name='twd_lidar_robot_diff_drive' filename='libgazebo_ros_diff_drive.so'>
       <update_rate>25</update_rate>
-      <!-- wheels -->
       <left_joint>left_wheel_hinge</left_joint>
       <right_joint>right_wheel_hinge</right_joint>
       <wheel_separation>0.138</wheel_separation>
       <wheel_diameter>0.065</wheel_diameter>
-      <!-- Nm -->
       <max_wheel_torque>15</max_wheel_torque>
       <max_wheel_acceleration>1.0</max_wheel_acceleration>
       <command_topic>cmd_vel</command_topic>
@@ -399,7 +387,7 @@
       </ros>
     </plugin>
 
-    <!-- **************************************** JOINT STATE PUBLISHER ********************************** -->
+    <!-- Joint State Publisher -->
     <plugin name="twd_lidar_robot_joint_state" filename="libgazebo_ros_joint_state_publisher.so">
       <ros>
         <remapping>~/out:=joint_states</remapping>
@@ -410,6 +398,3 @@
     </plugin>
   </model>
 </sdf>
-
-<!-- Later later add material to color things up -->
-<!-- Remove rplidar inertial tags? They do not seem to be influential -->

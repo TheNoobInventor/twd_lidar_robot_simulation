@@ -36,7 +36,7 @@ ament_python_install_package(${PROJECT_NAME})
 
 # Install Python executables
 install(PROGRAMS
-  scripts/joystick_node.py
+  scripts/joystick_pad_node.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

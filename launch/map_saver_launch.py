@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# This is the launch file used for ROS Foxy and older. Launch this file to save a map created in RViz.
+# Launch this file to save a map created in RViz.
 import os
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
@@ -11,15 +11,12 @@ from launch_ros.actions import Node
 def generate_launch_description():
 
     # .................. Configurable Arguments .....................
-
     use_sim_time = True
     map_saver_params_file = 'map_saver_params.yaml'
     # ...............................................................
 
-
     pkg_dir = get_package_share_directory('twd_lidar_robot')
     map_save_config = os.path.join(pkg_dir, 'params', map_saver_params_file)
-
 
     return LaunchDescription([
 
@@ -33,7 +30,6 @@ def generate_launch_description():
             emulate_tty=True,  
             parameters=[LaunchConfiguration('map_saver_params_file')]                  
         ),
-
         Node(
             package='nav2_lifecycle_manager',
             executable='lifecycle_manager',
@@ -45,5 +41,4 @@ def generate_launch_description():
                 {'autostart': True},
                 {'node_names': ['map_saver']}]
         )
-
     ])
